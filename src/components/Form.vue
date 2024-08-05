@@ -46,17 +46,9 @@
               cover
               transition-show="scale"
               transition-hide="scale"
+               @hide="focusDateInput"
             >
-              <q-date v-model="date" class="calendar">
-                <div class="row items-center justify-end">
-                  <q-btn
-                    v-close-popup
-                    label="Close"
-                    color="primary"
-                    flat
-                    @click="focusDate"
-                  />
-                </div>
+              <q-date v-model="date"    v-close-popup class="calendar">
               </q-date>
             </q-popup-proxy>
           </q-icon>
@@ -120,10 +112,11 @@ export default {
       resetValidation();
     };
 
-    const focusDate = () => {
-      console.log('ok');
-
-    }
+    const focusDateInput = () => {
+      if (dateInput.value) {
+        dateInput.value.focus();
+      }
+    };
 
 
     return {
@@ -138,7 +131,7 @@ export default {
       addTodoHandler,
       validateValue,
       validateDate,
-      focusDate
+       focusDateInput
     };
   },
 };
