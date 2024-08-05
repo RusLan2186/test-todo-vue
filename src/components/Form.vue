@@ -13,7 +13,7 @@
         autofocus
         clearable
         class="input"
-        :rules="[ validateValue ]"
+        :rules="[validateValue]"
       ></q-input>
 
       <q-input
@@ -26,7 +26,7 @@
         clearable
         class="input"
         dark
-        :rules="[ validateValue ]"
+        :rules="[validateValue]"
       ></q-input>
 
       <q-input
@@ -46,9 +46,12 @@
               cover
               transition-show="scale"
               transition-hide="scale"
-               @hide="focusDateInput"
+              @hide="focusDateInput"
             >
-              <q-date v-model="date"    v-close-popup class="calendar">
+              <q-date v-model="date"  class="calendar">
+                <div class="row items-center justify-end">
+                <q-btn v-close-popup label="Close" color="primary" flat  />
+              </div>
               </q-date>
             </q-popup-proxy>
           </q-icon>
@@ -76,11 +79,10 @@ export default {
 
     const validateValue = (val) => {
       if (submitted.value) {
-        return val.length >= 3 ||  'Please use a minimum of 3 characters';
+        return val.length >= 3 || 'Please use a minimum of 3 characters';
       }
       return true;
     };
-
 
     const validateDate = (val) => {
       if (submitted.value) {
@@ -118,7 +120,6 @@ export default {
       }
     };
 
-
     return {
       title,
       text,
@@ -131,7 +132,7 @@ export default {
       addTodoHandler,
       validateValue,
       validateDate,
-       focusDateInput
+      focusDateInput,
     };
   },
 };
