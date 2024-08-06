@@ -146,7 +146,6 @@ export default {
 
   @media (max-width: 767.98px) {
     display: grid;
-    row-gap: 15px;
   }
 }
 

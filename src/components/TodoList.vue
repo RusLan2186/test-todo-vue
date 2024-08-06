@@ -1,12 +1,17 @@
 <template>
   <div>
     <div v-for="(todos, date) in sortedGroupedTodos" :key="date">
-      <div @click="toggleDate(date)" class="header">
-        <div style="display: flex; column-gap: 14px">
+      <div
+        @click="toggleDate(date)"
+        :class="{ header: true, header__close: isDateOpen(date) }"
+      >
+        <div class="header__info">
           <p class="marker"></p>
+          <img v-if="isDateOpen(date)" :src="checkIcon" alt="icon" />
+
           <h2 class="header__title">{{ formatDate(date) }} Tasks</h2>
         </div>
-        <div>
+        <div v-if="!isDateOpen(date)">
           <img :src="icon" alt="icon" />
         </div>
       </div>
@@ -47,6 +52,7 @@
 import { computed, ref } from 'vue';
 import store from '../store/store';
 import icon from '../assets/icons/Vector.svg';
+import checkIcon from '../assets/icons/check.svg';
 import getMarkerColor from 'src/utils/getMarkerColor';
 import formatDate from 'src/utils/formatDate';
 
@@ -92,7 +98,6 @@ export default {
       return openDates.value.includes(date);
     };
 
-
     return {
       sortedGroupedTodos,
       formatDate,
@@ -100,6 +105,7 @@ export default {
       isDateOpen,
       getMarkerColor,
       icon,
+      checkIcon,
     };
   },
 };
@@ -121,6 +127,24 @@ export default {
 
   &:hover {
     transform: scale(1.02);
+  }
+}
+
+.header__close {
+  box-shadow: none;
+  justify-content: flex-start;
+
+  p {
+    display: none;
+  }
+}
+
+.header__info {
+  display: flex;
+  column-gap: 14px;
+
+  img{
+    margin-top: 6px;
   }
 }
 
