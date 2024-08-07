@@ -29,6 +29,10 @@ export default defineComponent({
   display: flex;
   justify-content: center;
   padding: 20px;
+
+  @media (max-width: 767.98px){
+    padding: 15px 10px;
+  }
 }
 
 .container {

@@ -111,7 +111,7 @@ export default {
 
     const handleKeyUp = () => {
       addTodoHandler();
-      resetValidation();
+      
     };
 
     const focusDateInput = () => {
