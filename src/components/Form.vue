@@ -13,7 +13,7 @@
         autofocus
         clearable
         class="input"
-        :rules="[validateValue]"
+        :rules="[(value) => validateValue(value, submitted)]"
       ></q-input>
 
       <q-input
@@ -26,7 +26,7 @@
         clearable
         class="input"
         dark
-        :rules="[validateValue]"
+        :rules="[(value) => validateValue(value, submitted)]"
       ></q-input>
 
       <q-input
@@ -39,6 +39,7 @@
         outlined
         class="input"
         @keyup.enter="handleKeyUp"
+         :rules="[(value) => validateDate(value, submitted)]"
       >
         <template v-slot:append>
           <q-icon name="event" class="cursor-pointer" color="secondary">
@@ -48,10 +49,10 @@
               transition-hide="scale"
               @hide="focusDateInput"
             >
-              <q-date v-model="date"  class="calendar">
+              <q-date v-model="date" class="calendar">
                 <div class="row items-center justify-end">
-                <q-btn v-close-popup label="Close" color="primary" flat  />
-              </div>
+                  <q-btn v-close-popup label="Close" color="primary" flat />
+                </div>
               </q-date>
             </q-popup-proxy>
           </q-icon>
@@ -65,6 +66,7 @@
 import { ref, nextTick } from 'vue';
 import getDate from '../utils/getDate';
 import { addTodo } from '../store/store';
+import { validateValue, validateDate } from '../utils/validators';
 
 export default {
   name: 'FormPage',
@@ -76,20 +78,6 @@ export default {
     const textInput = ref(null);
     const dateInput = ref(null);
     const submitted = ref(false);
-
-    const validateValue = (val) => {
-      if (submitted.value) {
-        return val.length >= 3 || 'Please use a minimum of 3 characters';
-      }
-      return true;
-    };
-
-    const validateDate = (val) => {
-      if (submitted.value) {
-        return !!val || 'Please select a date';
-      }
-      return true;
-    };
 
     const addTodoHandler = async () => {
       submitted.value = true;
@@ -111,7 +99,6 @@ export default {
 
     const handleKeyUp = () => {
       addTodoHandler();
-      
     };
 
     const focusDateInput = () => {
