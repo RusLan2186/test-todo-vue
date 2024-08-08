@@ -39,7 +39,7 @@
         outlined
         class="input"
         @keyup.enter="handleKeyUp"
-         :rules="[(value) => validateDate(value, submitted)]"
+        :rules="[(value) => validateDate(value, submitted)]"
       >
         <template v-slot:append>
           <q-icon name="event" class="cursor-pointer" color="secondary">
@@ -82,18 +82,23 @@ export default {
     const addTodoHandler = async () => {
       submitted.value = true;
 
-      const isValidTitle = await titleInput.value.validate();
-      const isValidText = await textInput.value.validate();
-      const isValidDate = await dateInput.value.validate();
+      try {
+        const isValidTitle = await titleInput.value.validate();
+        const isValidText = await textInput.value.validate();
+        const isValidDate = await dateInput.value.validate();
 
-      if (isValidTitle && isValidText && isValidDate) {
-        addTodo(title.value, text.value, date.value);
-        title.value = '';
-        text.value = '';
-        date.value = getDate();
-        await nextTick();
+        if (isValidTitle && isValidText && isValidDate) {
+          await addTodo(title.value, text.value, date.value);
+
+          title.value = '';
+          text.value = '';
+          date.value = getDate();
+          submitted.value = false;
+          titleInput.value.focus();
+        }
+      } catch (error) {
+        console.error(error);
         submitted.value = false;
-        titleInput.value.focus();
       }
     };
 
